@@ -1,0 +1,39 @@
+# Java compiled class files
+*.class
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Build output directories
+bin/
+build/
+target/
+
+# Gradle and Maven directories
+.gradle/
+.mvn/
+out/
+
+# Dependency caches
+**/node_modules/
+**/.classpath
+**/.project
+**/.settings
+
+# Test reports
+test-output/
+
+# JAR, WAR, and other package files
+*.jar
+*.war
+*.ear
+
+# Generated files
+*.generated
+
