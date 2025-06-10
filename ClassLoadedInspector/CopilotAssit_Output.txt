@@ -1,0 +1,80 @@
+
+Q: Is there a way I can get a list of Classes loaded in the Bootstrap class loader in Java
+
+Yes! You can retrieve the list of classes loaded by the Bootstrap class loader using the `sun.misc.SharedSecrets` API (though it's not officially documented) or by leveraging `Instrumentation`. Here's an approach using `Instrumentation`:
+
+### Using `Instrumentation`:
+You need to set up an agent to access loaded classes:
+
+```java
+import java.lang.instrument.Instrumentation;
+import java.util.Arrays;
+
+public class ClassLoaderInspector {
+    private static Instrumentation instrumentation;
+
+    public static void premain(String agentArgs, Instrumentation inst) {
+        instrumentation = inst;
+    }
+
+    public static void listBootstrapClasses() {
+        Class<?>[] classes = instrumentation.getAllLoadedClasses();
+        Arrays.stream(classes)
+            .filter(cls -> cls.getClassLoader() == null) // Bootstrap class loader
+            .forEach(System.out::println);
+    }
+}
+```
+
+### Steps:
+1. Compile the class and package it as a JAR with a `MANIFEST.MF` file including:
+   ```
+   Premain-Class: ClassLoaderInspector
+   ```
+2. Run your Java application with `-javaagent:your-agent.jar`
+3. Call `ClassLoaderInspector.listBootstrapClasses()` to print out classes loaded by the Bootstrap class loader.
+
+Would you like an alternative approach, maybe inspecting with reflection?
+
+
+Q.How do I compile and package with a manifest
+
+To compile and package your Java agent with a `MANIFEST.MF` file, follow these steps:
+
+### 1. **Compile the Java Class**
+Ensure your `ClassLoaderInspector.java` file is properly written. Then, compile it using:
+
+```sh
+javac ClassLoaderInspector.java
+```
+
+### 2. **Create a Manifest File**
+Inside your project directory, create a file named `MANIFEST.MF` with the following content:
+
+```
+Premain-Class: ClassLoaderInspector
+Manifest-Version: 1.0
+```
+
+### 3. **Package into a JAR**
+Run the following command to create a JAR including the manifest:
+
+```sh
+jar cfm ClassLoaderInspectorAgent.jar MANIFEST.MF ClassLoaderInspector.class
+```
+
+This tells `jar` to:
+- `c`: Create a new JAR file.
+- `f`: Specify the output JAR file (`ClassLoaderInspectorAgent.jar`).
+- `m`: Include the manifest file (`MANIFEST.MF`).
+
+### 4. **Use the Java Agent**
+Run your Java application with the agent:
+
+```sh
+java -javaagent:ClassLoaderInspectorAgent.jar -jar YourApp.jar
+```
+
+This will preload your agent and allow it to inspect loaded classes.
+
+Let me know if you hit any roadblocks!

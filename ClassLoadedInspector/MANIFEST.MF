@@ -1,0 +1,2 @@
+Premain-Class: ClassLoaderInspector
+Manifest-Version: 1.0
