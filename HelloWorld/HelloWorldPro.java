@@ -10,7 +10,18 @@ public class HelloWorldPro {
         if (args.length > 0) {
             for (String arg : args) {
                 
-                System.out.print(arg +  ",");
+                if(arg.equals(args[args.length - 1])) {
+                    // If it's the last argument, we don't add a comma.
+                    if(args.length > 1) {
+                        // If there are multiple arguments, we add " and " before the last one.
+                        System.out.print("and ");
+                    }
+
+                    System.out.print(arg);
+                } else {
+                    // For all other arguments, we add a comma.
+                    System.out.print(arg + ", ");
+                }
             }
         } else {
             // If no arguments are provided, we print "World" by default.
