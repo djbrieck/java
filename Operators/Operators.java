@@ -58,5 +58,23 @@ public class Operators {
         // Ternary Operator
         int max = (a > b) ? a : b;
         System.out.println("Ternary Operator (max): " + max); // 10
+
+        // Bitwise Shift Operators
+        int pos = 8; // 0000 1000
+        int neg = -8; // 1111 1000 (in 32 bits: 11111111 11111111 11111111 11111000)
+
+        System.out.println("\nBitwise Shift Operators:");
+        System.out.println("pos >> 2: " + (pos >> 2));   // 2  (0000 0010)
+        System.out.println("pos >>> 2: " + (pos >>> 2)); // 2  (0000 0010)
+
+        System.out.println("neg >> 2: " + (neg >> 2));   // -2 (arithmetic shift, sign bit stays)
+        System.out.println("neg >>> 2: " + (neg >>> 2)); // large positive (logical shift, fills with 0s)
+
+        // Show binary representations for clarity
+        System.out.println("\nBinary Representations:");
+        System.out.println("pos in binary: " + Integer.toBinaryString(pos));
+        System.out.println("neg in binary: " + Integer.toBinaryString(neg));
+        System.out.println("neg >> 2 in binary: " + Integer.toBinaryString(neg >> 2));
+        System.out.println("neg >>> 2 in binary: " + Integer.toBinaryString(neg >>> 2));
     }
 }
